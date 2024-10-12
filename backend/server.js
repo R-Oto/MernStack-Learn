@@ -1,16 +1,11 @@
-const connect = require("./connect")
 const express = require('express')
-const cors = require('cors')
-const posts = require('./postRoutes')
+require('dotenv').config()
 
 const app = express()
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json())
-app.use(cors())
-app.use("/api/posts", posts)
 
 app.listen(PORT, () => {
-    connect.connectToServer()
     console.log("Server started")
 })
