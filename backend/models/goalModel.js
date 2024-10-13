@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 
 const goalSchema = new mongoose.Schema({
+    user: {
+        
+    },
     text: {
         type: String,
         required: true 
