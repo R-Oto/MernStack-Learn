@@ -1,7 +1,7 @@
 const Goal = require("../models/goalModel")
 
 const getGoal = async (req,res) => {
-    const goals = await Goal.find()
+    const goals = await Goal.find({user: req.user.id})
     res.status(200).json({message: "Get All Goals", goals})
 }
 
