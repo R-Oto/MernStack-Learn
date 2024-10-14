@@ -22,7 +22,8 @@ const registerUser = asyncHandler(async (req,res)=>{
         return res.status(201).json({
             _id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         })
     }else{
         return res.status(400).json({error: "Invalid user"})
@@ -36,7 +37,8 @@ const loginUser = asyncHandler(async (req,res)=>{
         res.json({
             _id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id)
         })
     }else{
         return res.status(400).json({error: "Invalid credentials"})
@@ -46,6 +48,12 @@ const loginUser = asyncHandler(async (req,res)=>{
 const getMe = asyncHandler(async (req,res)=>{
     
 })
+
+const generateToken = (id) => {
+    return jwt.sign({id}, process.env.JWT, {
+        expiresIn: "30d"
+    })
+}
 
 module.exports ={
     registerUser,
