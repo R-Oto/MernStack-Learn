@@ -17,7 +17,16 @@ const registerUser = asyncHandler(async (req,res)=>{
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    const user = await User.create({name, email, password})
+    const user = await User.create({name, email, password: hashedPassword})
+    if(user){
+        return res.status(201).json({
+            _id: user.id,
+            name: user.name,
+            email: user.email
+        })
+    }else{
+        return res.status(400).json({error: "Invalid user"})
+    }
 })
 
 const loginUser = asyncHandler(async (req,res)=>{
