@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const workoutRoute = require('./route/workoutRoute')
 
 require('dotenv').config()
 
@@ -11,6 +12,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.json())
+app.use("/api/workout", workoutRoute)
 
 
 mongoose.connect(process.env.ATLAS_URI).then(()=>{
