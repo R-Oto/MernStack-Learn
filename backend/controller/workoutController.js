@@ -39,12 +39,29 @@ const getOne = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Workout found", workout });
 });
 
-const updateOne = asyncHandler(async (req,res) => {
-    const id = req.params;
-})
+const updateOne = asyncHandler(async (req, res) => {
+    const { id } = req.params; 
+    const updateData = req.body; 
+
+    const workout = await Workout.findByIdAndUpdate(id, updateData, { new: true }); 
+
+    if (!workout) {
+        return res.status(404).json({ error: "Invalid ID" });
+    }
+
+    res.status(200).json({ message: "Workout updated successfully", workout });
+});
+
 
 const deleteOne = asyncHandler(async (req,res) => {
-    
+    const {id} = req.params;
+    const deleteData = req.body;
+
+    const workout = await Workout.findByIdAndDelete(id)
+    if (!workout) {
+        return res.status(404).json({ error: "Invalid ID" });
+    }
+    res.status(200).json({ message: "Workout deleted successfully", workout });
 })
 
 module.exports = { getAll, createOne, getOne, updateOne, deleteOne }
