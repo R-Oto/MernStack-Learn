@@ -1,17 +1,24 @@
 const express = require('express')
-require('dotenv').config()
-const goalRouter = require('./routes/goalRoutes')
-const connectDB = require('./config/db')
-const userRouter = require('./routes/userRoutes')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
+require('dotenv').config()
+
+const port = process.env.PORT || 5000
 const app = express()
-const PORT = process.env.PORT || 4000;
 
 app.use(express.json())
-app.use("/api/goals", goalRouter)
-app.use("/api/users", userRouter)
+app.use(cookieParser())
+app.use(bodyParser.json())
 
-app.listen(PORT, () => {
-    connectDB()
-    console.log("Server started")
+
+mongoose.connect(process.env.ATLAS_URI).then(()=>{
+    console.log("Connected to db")
+    app.listen(port, () => {
+        console.log("Server started")
+    })
+}).catch((error)=>{
+    console.log(error)
+    process.exit(1)
 })
